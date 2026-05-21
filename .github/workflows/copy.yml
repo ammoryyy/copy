@@ -1,0 +1,12 @@
+name: Instant Copy Handler
+on:
+  repository_dispatch:
+    types: [copy_text]
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write directly to system stream
+        run: |
+          echo "${{ github.event.client_payload.text }}"
