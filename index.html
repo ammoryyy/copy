@@ -1,61 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Copying...</title>
-    <style>
-        body {
-            font-family: system-ui, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: #121212;
-            color: #ffffff;
-            cursor: pointer;
-        }
-        .box {
-            text-align: center;
-            padding: 40px;
-            border: 2px dashed #444;
-            border-radius: 12px;
-        }
-    </style>
-</head>
-<body>
-    <div class="box">
-        <h2>Click anywhere to copy text</h2>
-        <p>Chrome requires one click to allow clipboard access.</p>
-    </div>
-
+<html>
+<head><title>Copying...</title></head>
+<body style="background:#121212;">
     <script>
-        // Extract the text parameter from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const textToCopy = urlParams.get('text') || '';
-
-        // Trigger copy on the mandatory user click gesture
-        document.body.addEventListener('click', () => {
-            if (!textToCopy) {
-                window.close();
-                return;
-            }
-
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => {
-                    window.close();
-                })
-                .catch(() => {
-                    // Old-school fallback if the modern API objects
-                    const el = document.createElement('textarea');
-                    el.value = textToCopy;
-                    document.body.appendChild(el);
-                    el.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(el);
-                    window.close();
-                });
-        });
+        if (textToCopy) {
+            navigator.clipboard.writeText(textToCopy).then(() => window.close());
+        } else {
+            window.close();
+        }
     </script>
 </body>
 </html>
